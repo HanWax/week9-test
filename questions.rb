@@ -236,7 +236,6 @@ end
 # https://www.gov.uk/bank-holidays
 def is_a_2014_bank_holiday?(date)
 	bank_holidays = ['2014-01-01','2014-04-18','2014-04-21','2014-05-05','2014-05-26','2014-08-25', '2014-12-25', '2014-12-26']
-
 	bank_holidays.include?(date.to_s.split.first) ? true : false
 end
 
@@ -256,7 +255,8 @@ end
 # and 1 that is 4 letters long. Return it as a hash in the format
 # word_length => count, e.g. {2 => 1, 3 => 5, 4 => 1}
 def count_words_of_each_length_in_a_file(file_path)
-	File.read(file_path).scan(/\(.*\)/)
+	f = File.open(file_path).readline.gsub!(/\W+/, ' ').split.map(&:length)
+	f = f.map {|n| [n, f.count(n)] }.uniq.each(&:to_a).to_h
 end
 
 # implement fizzbuzz without modulo, i.e. the % method
