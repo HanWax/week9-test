@@ -1,3 +1,5 @@
+require 'date'
+
 # keep only the elements that start with an a
 def select_elements_starting_with_a(array)
 	array.select {|e| e.downcase.start_with?('a')}
@@ -27,16 +29,16 @@ end
 # given an array of student names, like ['Bob', 'Dave', 'Clive']
 # give every possible pairing - in this case:
 # [['Bob', 'Clive'], ['Bob', 'Dave'], ['Clive', 'Dave']]
-# make sure you don't have the same pairing twice, 
+# make sure you don't have the same pairing twice,
 def every_possible_pairing_of_students(array)
 	array.combination(2).to_a
 end
 
-# discard the first 3 elements of an array, 
+# discard the first 3 elements of an array,
 # e.g. [1, 2, 3, 4, 5, 6] becomes [4, 5, 6]
 def all_elements_except_first_3(array)
 	array.slice!(0..2)
-	return array 
+	return array
 end
 
 # add an element to the beginning of an array
@@ -61,12 +63,12 @@ end
 # stays negative
 def make_numbers_negative(number)
 	if number > 0
-		return number - number * 2 
+		return number - number * 2
 	else number
-	end 
+	end
 end
 
-# turn an array of numbers into two arrays of numbers, one an array of 
+# turn an array of numbers into two arrays of numbers, one an array of
 # even numbers, the other an array of odd numbers
 # even numbers come first
 # so [1, 2, 3, 4, 5, 6] becomes [[2, 4, 6], [1, 3, 5]]
@@ -120,7 +122,7 @@ end
 # [1, 3, 5, 4, 1, 2, 6, 2, 1, 3, 7]
 # becomes [1, 3, 5, 4, 1, 2]
 def get_elements_until_greater_than_five(array)
-	array.take_while { |i| i < 6 } 
+	array.take_while { |i| i < 6 }
 end
 
 # turn an array (with an even number of elements) into a hash, by
@@ -161,7 +163,7 @@ end
 # round up a float up and convert it to an Integer,
 # so 3.214 becomes 4
 def round_up_number(float)
-	float.ceil 
+	float.ceil
 end
 
 # round down a float up and convert it to an Integer,
@@ -182,7 +184,7 @@ def get_domain_name_from_email_address(email)
 	email.scan(/@(\w+)/)[0].pop
 end
 
-# capitalize the first letter in each word of a string, 
+# capitalize the first letter in each word of a string,
 #  except 'a', 'and' and 'the'
 # *unless* they come at the start of the start of the string, e.g.
 # 'the lion the witch and the wardrobe' becomes
@@ -204,7 +206,7 @@ def get_upper_limit_of(range)
 	range.max
 end
 
-# should return true for a 3 dot range like 1...20, false for a 
+# should return true for a 3 dot range like 1...20, false for a
 # normal 2 dot range
 def is_a_3_dot_range?(range)
 	!range.include?(range.last)
@@ -226,18 +228,26 @@ end
 # called call_method_from_string('foobar')
 # the method foobar should be invoked
 def call_method_from_string(str_method)
+	String.methods.select {|method| method.include?(str_method)}
 end
 
 # return true if the date is a uk bank holiday for 2014
 # the list of bank holidays is here:
 # https://www.gov.uk/bank-holidays
 def is_a_2014_bank_holiday?(date)
+	bank_holidays = ['2014-01-01','2014-04-18','2014-04-21','2014-05-05','2014-05-26','2014-08-25', '2014-12-25', '2014-12-26']
+
+	bank_holidays.include?(date.to_s.split.first) ? true : false
 end
 
 # given your birthday this year, this method tells you
 # the next year when your birthday will fall on a friday
 # e.g. january 1st, will next be a friday in 2016
 def your_birthday_is_on_a_friday_in_the_year(birthday)
+	until birthday.friday?
+		birthday =  Time.new(birthday.year + 1, birthday.month, birthday.day)
+	end
+	birthday.year
 end
 
 # in a file, total the number of times words of different lengths
@@ -246,6 +256,7 @@ end
 # and 1 that is 4 letters long. Return it as a hash in the format
 # word_length => count, e.g. {2 => 1, 3 => 5, 4 => 1}
 def count_words_of_each_length_in_a_file(file_path)
+	File.read(file_path).scan(/\(.*\)/)
 end
 
 # implement fizzbuzz without modulo, i.e. the % method
@@ -256,7 +267,7 @@ end
 
 # print the lyrics of the song 99 bottles of beer on the wall
 # http://www.99-bottles-of-beer.net/lyrics.html
-# make sure you use the singular when you have one bottle of 
+# make sure you use the singular when you have one bottle of
 # beer on the wall, and print 'no more bottles of beer on the wall'
 # at the end.
 # (there's no RSpec test for this one)
